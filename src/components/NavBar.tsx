@@ -143,7 +143,7 @@ export default function NavBar() {
 
       {/* Fullscreen Overlay Menu */}
       <div
-        className={`fixed left-0 top-0 z-40 flex h-dvh w-screen flex-col items-start justify-start p-6 pt-24 pb-12 overflow-y-auto transition-transform duration-500 ease-in-out px-4 sm:px-10 lg:px-32 xl:px-60 ${
+        className={`fixed left-0 top-0 z-40 flex h-dvh w-screen flex-col items-center justify-center p-6 overflow-y-auto transition-transform duration-500 ease-in-out ${
           isOpen ? "translate-y-0" : "-translate-y-full"
         }`}
         style={{
@@ -151,62 +151,43 @@ export default function NavBar() {
           color: "var(--accent-contrast)",
         }}
       >
-        <ul className="font-departure-mono text-5xl md:text-7xl uppercase">
-          <li>
-            <Link
-              href="/#about"
-              className="inline-block transform-gpu transition-all duration-300 hover:-translate-y-0.5 hover:translate-x-6 hover:drop-shadow-[3px_3px_0_rgba(0,0,0,0.5)] dark:hover:drop-shadow-[3px_3px_0_rgba(255,255,255,0.45)]"
-              onClick={() => setIsOpen(false)}
-            >
-              About
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/#tech"
-              className="inline-block transform-gpu transition-all duration-300 hover:-translate-y-0.5 hover:translate-x-6 hover:drop-shadow-[3px_3px_0_rgba(0,0,0,0.5)] dark:hover:drop-shadow-[3px_3px_0_rgba(255,255,255,0.45)]"
-              onClick={() => setIsOpen(false)}
-            >
-              Tech
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/#works"
-              className="inline-block transform-gpu transition-all duration-300 hover:-translate-y-0.5 hover:translate-x-6 hover:drop-shadow-[3px_3px_0_rgba(0,0,0,0.5)] dark:hover:drop-shadow-[3px_3px_0_rgba(255,255,255,0.45)]"
-              onClick={() => setIsOpen(false)}
-            >
-              Works
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/#exp"
-              className="inline-block transform-gpu transition-all duration-300 hover:-translate-y-0.5 hover:translate-x-6 hover:drop-shadow-[3px_3px_0_rgba(0,0,0,0.5)] dark:hover:drop-shadow-[3px_3px_0_rgba(255,255,255,0.45)]"
-              onClick={() => setIsOpen(false)}
-            >
-              Exp & Edu
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/blogs"
-              className="inline-block transform-gpu transition-all duration-300 hover:-translate-y-0.5 hover:translate-x-6 hover:drop-shadow-[3px_3px_0_rgba(0,0,0,0.5)] dark:hover:drop-shadow-[3px_3px_0_rgba(255,255,255,0.45)]"
-              onClick={() => setIsOpen(false)}
-            >
-              Blogs
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/#contact"
-              className="inline-block transform-gpu transition-all duration-300 hover:-translate-y-0.5 hover:translate-x-6 hover:drop-shadow-[3px_3px_0_rgba(0,0,0,0.5)] dark:hover:drop-shadow-[3px_3px_0_rgba(255,255,255,0.45)]"
-              onClick={() => setIsOpen(false)}
-            >
-              Contact
-            </Link>
-          </li>
+        {/* Subtle background grid pattern */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(var(--accent-contrast)_1px,transparent_1px)] [background-size:24px_24px]" />
+
+        <ul className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 font-departure-mono text-4xl sm:text-6xl md:text-7xl uppercase text-center">
+          {[
+            { label: "About", href: "/#about", num: "01" },
+            { label: "Tech", href: "/#tech", num: "02" },
+            { label: "Works", href: "/#works", num: "03" },
+            { label: "Exp & Edu", href: "/#exp", num: "04" },
+            { label: "Blogs", href: "/blogs", num: "05" },
+            { label: "Contact", href: "/#contact", num: "06" },
+          ].map((item) => (
+            <li key={item.label} className="group relative">
+              <Link
+                href={item.href}
+                className="group/link flex items-center justify-center gap-3 sm:gap-5 transform-gpu transition-all duration-300 hover:-translate-y-1 hover:scale-105"
+                onClick={() => setIsOpen(false)}
+              >
+                <span className="font-departure-mono text-xs sm:text-base opacity-50 group-hover/link:opacity-100 group-hover/link:text-white transition-opacity">
+                  [{item.num}]
+                </span>
+                <span className="relative">
+                  {item.label}
+                  <span className="absolute bottom-0 left-0 w-0 h-1 bg-current transition-all duration-300 group-hover/link:w-full" />
+                </span>
+                <span className="opacity-0 -translate-x-2 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all text-xs sm:text-sm font-bold border border-current px-1.5 py-0.5">
+                  ↵
+                </span>
+              </Link>
+            </li>
+          ))}
         </ul>
+
+        {/* Footer info in overlay */}
+        <div className="absolute bottom-8 text-center font-departure-mono text-xs tracking-widest opacity-60">
+          DESIGNED & BUILT BY REX // 2026
+        </div>
       </div>
     </>
   );
