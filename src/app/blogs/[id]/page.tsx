@@ -27,9 +27,33 @@ export async function generateMetadata({
     };
   }
 
+  const ogImageUrl = `https://portfolio-developer-ten-pied.vercel.app/blogs/${id}/opengraph-image`;
+
   return {
     title: `${blog.title} | Rex`,
     description: blog.english_summary || `Read ${blog.title} on Rex's portfolio`,
+    openGraph: {
+      title: blog.title,
+      description: blog.english_summary || `Read ${blog.title} on Rex's portfolio`,
+      url: `https://portfolio-developer-ten-pied.vercel.app/blogs/${id}`,
+      siteName: "Rex — Htoo Myat Aung",
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: blog.title,
+        },
+      ],
+      locale: "en_US",
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: blog.title,
+      description: blog.english_summary || `Read ${blog.title} on Rex's portfolio`,
+      images: [ogImageUrl],
+    },
   };
 }
 

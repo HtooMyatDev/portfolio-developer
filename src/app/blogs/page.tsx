@@ -7,6 +7,30 @@ export const metadata: Metadata = {
   title: "Blogs",
   description:
     "Notes, ideas, and lessons on frontend craft and software engineering.",
+  openGraph: {
+    title: "Blogs",
+    description:
+      "Notes, ideas, and lessons on frontend craft and software engineering.",
+    url: "https://portfolio-developer-ten-pied.vercel.app/blogs",
+    siteName: "Htoo Myat Aung",
+    images: [
+      {
+        url: "https://portfolio-developer-ten-pied.vercel.app/blogs/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Blogs - Htoo Myat Aung",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blogs",
+    description:
+      "Notes, ideas, and lessons on frontend craft and software engineering.",
+    images: ["https://htoomyataung.com/blogs/og-image.png"],
+  },
 };
 
 export default function Blogs() {
