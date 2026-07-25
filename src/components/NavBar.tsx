@@ -152,7 +152,7 @@ export default function NavBar() {
         }}
       >
         {/* Subtle background grid pattern */}
-        <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(var(--accent-contrast)_1px,transparent_1px)] [background-size:24px_24px]" />
+        <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(var(--accent-contrast)_1px,transparent_1px)] bg-size-[24px_24px]" />
 
         <ul className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 font-departure-mono text-4xl sm:text-6xl md:text-7xl uppercase text-center">
           {[

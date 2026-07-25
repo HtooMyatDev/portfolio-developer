@@ -1,35 +1,44 @@
-"use client";
-
-import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import Image from "next/image";
-import { use } from "react";
 import { projects } from "@/data/projects";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 
-export default function ProjectDetail({
+export function generateStaticParams() {
+  return projects.map((p) => ({
+    id: String(p.id),
+  }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const project = projects.find((p) => p.id === Number(id));
+
+  if (!project) {
+    return { title: "Project Not Found" };
+  }
+
+  return {
+    title: project.title,
+    description: project.description,
+  };
+}
+
+export default async function ProjectDetail({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = use(params);
+  const { id } = await params;
   const project = projects.find((p) => p.id === Number(id));
-  const router = useRouter();
 
   if (!project) {
-    return (
-      <div className="min-h-screen pb-10 flex flex-col items-center gap-3">
-        <Header title="Project not found" subtitle="404 Error" />
-        <p className="text-center font-departure-mono text-lg mt-3">
-          The project you are looking for doesn&apos;t exist.
-        </p>
-        <Link href="/projects">
-          <button className="px-5 py-2.5 font-departure-mono font-bold uppercase tracking-widest text-xs cursor-pointer transition-all border-2 border-black dark:border-white shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-[2px_2px_0_0_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0_0_rgba(255,255,255,1)] active:translate-y-1 active:translate-x-1 active:shadow-none">
-            Back to projects
-          </button>
-        </Link>
-      </div>
-    );
+    notFound();
   }
 
   return (
@@ -94,15 +103,15 @@ export default function ProjectDetail({
         {/* Main Content */}
         <div className="lg:col-span-2">
           <div className="flex flex-col gap-6">
-            <div>
-              <p className="font-departure-mono text-[15px] sm:text-[16px] leading-7">
-                {project.longDescription}
-              </p>
+            <div className="prose dark:prose-invert font-departure-mono max-w-none text-[15px] sm:text-[16px] leading-7 prose-p:mb-4">
+              <p>{project.longDescription}</p>
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <button
-                onClick={() => window.open(project.link, "_blank")}
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="px-5 py-2.5 font-departure-mono font-bold uppercase tracking-widest text-xs cursor-pointer transition-all border-2 border-black dark:border-white shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-[2px_2px_0_0_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0_0_rgba(255,255,255,1)] active:translate-y-1 active:translate-x-1 active:shadow-none"
                 style={{
                   backgroundColor: "var(--accent)",
@@ -111,9 +120,9 @@ export default function ProjectDetail({
                 }}
               >
                 Visit {project.status === "active" ? "Site" : "Demo"}
-              </button>
-              <button
-                onClick={() => router.back()}
+              </a>
+              <Link
+                href="/projects"
                 className="px-5 py-2.5 font-departure-mono font-bold uppercase tracking-widest text-xs cursor-pointer transition-all border-2 border-black dark:border-white shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-[2px_2px_0_0_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0_0_rgba(255,255,255,1)] active:translate-y-1 active:translate-x-1 active:shadow-none"
                 style={{
                   backgroundColor: "var(--card-bg)",
@@ -122,7 +131,7 @@ export default function ProjectDetail({
                 }}
               >
                 ← Back
-              </button>
+              </Link>
             </div>
           </div>
         </div>

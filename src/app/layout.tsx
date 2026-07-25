@@ -69,8 +69,11 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Htoo Myat Aung",
-  description: "Web Developer Portfolio",
+  title: {
+    default: "Rex — Software Engineer",
+    template: "%s | Rex",
+  },
+  description: "Software engineer & web developer portfolio showcasing projects, notes, and interactive web experiences.",
   icons: {
     icon: "/favicon.png",
   },

@@ -2,6 +2,12 @@ import Header from "@/components/Header";
 import Link from "next/link";
 import { projects } from "@/data/projects";
 import { FaGithub } from "react-icons/fa";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Projects",
+  description: "Explore web development projects, tools, and open-source software built by Rex.",
+};
 
 export default function ProjectsPage() {
   return (
