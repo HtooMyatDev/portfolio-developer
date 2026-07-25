@@ -74,13 +74,11 @@ export const projects: Project[] = [
     category: "Backend API",
     year: "2026",
     status: "active",
-    description: "A modern portfolio website for a web developer.",
-    longDescription:
-      "A high-performance portfolio website built with Next.js to showcase photography work. The site features a masonry grid layout, smooth animations, and a dark-themed design to highlight the visuals. I implemented image optimization and lazy loading to ensure fast load times.",
+    description: "Demanding concert ticketing system for high performance.",
+    longDescription: "Demanding concert ticketing system for high performance.",
     stack: ["Express.js", "Node.js", "SQLite", "EC2"],
-    image: "/photography.png",
-    link: "https://portfolio-photography-nine.vercel.app/",
-    github:
-      "https://github.com/HtooMyatDev/demanding-concert-ticketing-system.git",
+    image: "/concert.png",
+    link: "",
+    github: "https://github.com/HtooMyatDev/demanding-concert-ticketing-system",
   },
 ];
