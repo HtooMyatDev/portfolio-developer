@@ -30,11 +30,13 @@ export async function generateMetadata({
   const ogImageUrl = `https://portfolio-developer-ten-pied.vercel.app/blogs/${id}/opengraph-image`;
 
   return {
-    title: `${blog.title} | Rex`,
-    description: blog.english_summary || `Read ${blog.title} on Rex's portfolio`,
+    title: `${blog.title}`,
+    description:
+      blog.english_summary || `Read ${blog.title} on Rex's portfolio`,
     openGraph: {
       title: blog.title,
-      description: blog.english_summary || `Read ${blog.title} on Rex's portfolio`,
+      description:
+        blog.english_summary || `Read ${blog.title} on Rex's portfolio`,
       url: `https://portfolio-developer-ten-pied.vercel.app/blogs/${id}`,
       siteName: "Rex — Htoo Myat Aung",
       images: [
@@ -51,7 +53,8 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: blog.title,
-      description: blog.english_summary || `Read ${blog.title} on Rex's portfolio`,
+      description:
+        blog.english_summary || `Read ${blog.title} on Rex's portfolio`,
       images: [ogImageUrl],
     },
   };
