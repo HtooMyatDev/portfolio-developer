@@ -30,8 +30,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files — keep example, ignore real secrets
 .env*
+!.env.local.example
 
 # vercel
 .vercel
@@ -39,3 +40,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# blog .md files — content is stored in Supabase, not in the repo
+public/blogs/
+
+# old middleware filename (renamed to proxy.ts in Next.js 16)
+src/middleware.ts

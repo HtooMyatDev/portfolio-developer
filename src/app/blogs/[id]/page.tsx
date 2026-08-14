@@ -3,8 +3,8 @@ import { getSortedBlogsData, getBlogData } from "@/lib/blogs";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
-export function generateStaticParams() {
-  const blogs = getSortedBlogsData();
+export async function generateStaticParams() {
+  const blogs = await getSortedBlogsData();
 
   return blogs.map((blog) => ({
     id: blog.id,
@@ -17,7 +17,7 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const blogs = getSortedBlogsData();
+  const blogs = await getSortedBlogsData();
 
   const blog = blogs.find((b) => b.id === id);
 
@@ -66,7 +66,7 @@ export default async function Post({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const blogs = getSortedBlogsData();
+  const blogs = await getSortedBlogsData();
 
   if (!blogs.find((b) => b.id === id)) notFound();
 

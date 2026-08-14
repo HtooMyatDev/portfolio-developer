@@ -9,7 +9,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const blogs = getSortedBlogsData();
+  const blogs = await getSortedBlogsData();
   const blog = blogs.find((b) => b.id === id);
 
   const title = blog?.title ?? "Blog Post";

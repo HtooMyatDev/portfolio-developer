@@ -1,12 +1,8 @@
-// posts.ts
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
-import { remark } from "remark";
-import html from "remark-html";
+import { supabase } from "@/lib/supabase";
 
 export type BlogPost = {
-  id: string;
+  id: string;         // UUID from Supabase
+  slug: string;       // URL-friendly slug
   title: string;
   date: string;
   category?: string;
@@ -15,71 +11,60 @@ export type BlogPost = {
   burmese_summary?: string;
   english_content?: string;
   burmese_content?: string;
+  status: "draft" | "published";
 };
 
-const blogsDirectory = path.join(process.cwd(), "public", "blogs");
+export async function getSortedBlogsData(): Promise<BlogPost[]> {
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .select("*")
+    .eq("status", "published")
+    .order("date", { ascending: false });
 
-export function getSortedBlogsData() {
-  // Get file names under /blogs
-  const fileNames = fs.readdirSync(blogsDirectory);
-  const allBlogsData = fileNames.map((fileName) => {
-    // Remove ".md" from file name to get id
-    const id = fileName.replace(/\.md$/, "");
+  if (error || !data) return [];
 
-    // Read markdown file as string
-    const fullPath = path.join(blogsDirectory, fileName);
-    const fileContents = fs.readFileSync(fullPath, "utf8");
-
-    // Use gray-matter to parse the post metadata section
-    const matterResult = matter(fileContents);
-
-    const blogPost: BlogPost = {
-      id,
-      title: matterResult.data.title || "",
-      date: matterResult.data.date || "",
-      category: matterResult.data.category || "",
-      readTime: matterResult.data.readTime || "",
-      english_summary: matterResult.data.english_summary || "",
-      burmese_summary: matterResult.data.burmese_summary || "",
-      english_content: matterResult.data.english_content || "",
-      burmese_content: matterResult.data.burmese_content || "",
-    };
-
-    // Combine the data with the id
-    return blogPost;
-  });
-  // Sort posts by date
-  return allBlogsData.sort((a, b) => (a.date < b.date ? 1 : -1));
+  return data.map((row) => ({
+    id: row.slug,   // Keep slug as "id" so existing [id] routes work without changes
+    slug: row.slug,
+    title: row.title,
+    date: row.date,
+    category: row.category ?? "",
+    readTime: row.read_time ?? "",
+    english_summary: row.english_summary ?? "",
+    burmese_summary: row.burmese_summary ?? "",
+    english_content: row.english_content ?? "",
+    burmese_content: row.burmese_content ?? "",
+    status: row.status,
+  }));
 }
 
-export async function getBlogData(id: string) {
-  const fullPath = path.join(blogsDirectory, `${id}.md`);
-  const fileContents = fs.readFileSync(fullPath, "utf8");
+export async function getBlogData(slug: string): Promise<
+  BlogPost & { contentHtml: string }
+> {
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .select("*")
+    .eq("slug", slug)
+    .single();
 
-  // Use gray-matter to parse the post metadata section
-  const matterResult = matter(fileContents);
+  if (error || !data) throw new Error(`Blog not found: ${slug}`);
 
-  const processedContent = await remark()
-    .use(html)
-    .process(matterResult.content);
+  // Content is already HTML from TipTap — no remark conversion needed.
+  // For legacy posts migrated from .md, content is also pre-converted to HTML.
+  const contentHtml = data.english_content ?? "";
 
-  const contentHtml = processedContent.toString();
-
-  const blogPostWithHTML: BlogPost & {
-    contentHtml: string;
-  } = {
-    id,
-    title: matterResult.data.title || "",
-    date: matterResult.data.date || "",
-    category: matterResult.data.category || "",
-    readTime: matterResult.data.readTime || "",
-    english_summary: matterResult.data.english_summary || "",
-    burmese_summary: matterResult.data.burmese_summary || "",
-    english_content: matterResult.data.english_content || "",
-    burmese_content: matterResult.data.burmese_content || "",
+  return {
+    id: data.slug,
+    slug: data.slug,
+    title: data.title,
+    date: data.date,
+    category: data.category ?? "",
+    readTime: data.read_time ?? "",
+    english_summary: data.english_summary ?? "",
+    burmese_summary: data.burmese_summary ?? "",
+    english_content: data.english_content ?? "",
+    burmese_content: data.burmese_content ?? "",
+    status: data.status,
     contentHtml,
   };
-
-  // Combine the data with the id
-  return blogPostWithHTML;
 }

@@ -33,8 +33,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Blogs() {
-  const blogs = getSortedBlogsData();
+export default async function Blogs() {
+  const blogs = await getSortedBlogsData();
 
   return (
     <section className="mt-6 mx-auto">

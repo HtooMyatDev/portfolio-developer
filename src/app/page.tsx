@@ -11,6 +11,7 @@ import Marquee from "@/components/Marquee";
 import Contact from "@/components/Contact";
 import DashedAnimation from "@/animations/DashedAnimation";
 import NeoReveal from "@/animations/NeoReveal";
+import VisitorCounter from "@/components/VisitorCounter";
 
 export default function Home() {
   return (
@@ -58,6 +59,7 @@ export default function Home() {
         <p className="font-departure-mono font-bold uppercase tracking-widest text-[10px] text-foreground/60">
           © {new Date().getFullYear()} HtooMyatDev. All rights reserved.
         </p>
+        <VisitorCounter />
         <p className="font-departure-mono font-bold uppercase tracking-widest text-[10px] text-foreground/60">
           Built with Next.js / GSAP / Tailwind CSS
         </p>
